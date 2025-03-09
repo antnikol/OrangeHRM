@@ -30,6 +30,7 @@ test.describe('Tests for the employee management functionality in the OrangeHRM 
     await pimPage.fillFirstNameField(genUser.firstname);
     await pimPage.fillMiddleNameField(genUser.middlename);
     await pimPage.fillLastNameField(genUser.lastname);
+    await pimPage.changeEmployeeID(`${genUser.id}`);
     await pimPage.clickCreateLoginDetailsButton();
     await pimPage.fillUsernameField(genUser.username);
     const password = await pimPage.fillPasswordField(genUser.password);
