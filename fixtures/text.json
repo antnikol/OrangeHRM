@@ -2,7 +2,8 @@
   "pimPage": {
     "personalDetailsHeader": "Personal Details",
     "url": "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList",
-    "editedLastName": "edited Last Name"
+    "editedLastName": "edited Last Name",
+    "filePath": "fixtures/palms.jpg"
   },
   "basePage": {
     "dashboardHeading": "Dashboard"

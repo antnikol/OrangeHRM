@@ -24,6 +24,9 @@ class PIMPage extends BasePage {
         this.lastNameInput = page.locator('input[name="lastName"]');
         this.savePersonalDetailsButton = page.locator('button[type="submit"]').nth(0);
         this.successSavedMessage = page.locator('.oxd-toast--success')
+        this.employeeAddPhotoButton = page.locator('.oxd-icon.bi-plus');
+        this.fileInput = page.locator('input[type="file"]');
+        this.filePreview = page.locator('img.employee-image[src^="data:image/jpeg;base64,"]');
     }
 
     async clickAddEmployeeButton(){
@@ -87,6 +90,14 @@ class PIMPage extends BasePage {
 
     async clickEmployeeListButton() {
         await this.employeeListButton.click();
+    }
+
+    async clickEmployeeAddPhotoButton() {
+        await this.employeeAddPhotoButton.click();
+    }
+
+    async uploadFile(filePath) {
+        await this.employeeAddPhotoButton.setInputFiles(filePath)
     }
 }
 

@@ -23,6 +23,10 @@ test.describe('Tests for the employee management functionality in the OrangeHRM 
 
     await pimPage.clickButtonPIM();
     await pimPage.clickAddEmployeeButton();
+    await pimPage.clickEmployeeAddPhotoButton();
+    await pimPage.fileInput.setInputFiles(text.pimPage.filePath);
+    await expect(pimPage.filePreview).toBeVisible();
+
     await pimPage.fillFirstNameField(genUser.firstname);
     await pimPage.fillMiddleNameField(genUser.middlename);
     await pimPage.fillLastNameField(genUser.lastname);
