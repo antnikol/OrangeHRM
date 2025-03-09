@@ -1,0 +1,242 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Tests for the employee management functionality in the OrangeHRM system >> Verify that an administrator can successfully edit an employee's details
+- Location: /home/runner/work/OrangeHRM/OrangeHRM/tests/pimPage.spec.ts:75:7
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+Locator: locator('.oxd-toast--success')
+Expected: visible
+Received: <element(s) not found>
+Call log:
+  - expect.toBeVisible with timeout 5000ms
+  - waiting for locator('.oxd-toast--success')
+
+    at /home/runner/work/OrangeHRM/OrangeHRM/tests/pimPage.spec.ts:93:53
+```
+
+# Page snapshot
+
+```yaml
+- complementary:
+  - navigation "Sidepanel":
+    - link "client brand banner":
+      - img "client brand banner"
+    - textbox "Search"
+    - button ""
+    - separator
+    - list:
+      - listitem:
+        - link "Admin"
+      - listitem:
+        - link "PIM"
+      - listitem:
+        - link "Leave"
+      - listitem:
+        - link "Time"
+      - listitem:
+        - link "Recruitment"
+      - listitem:
+        - link "My Info"
+      - listitem:
+        - link "Performance"
+      - listitem:
+        - link "Dashboard"
+      - listitem:
+        - link "Directory"
+      - listitem:
+        - link "Maintenance"
+      - listitem:
+        - link "Claim":
+          - img
+          - text: Claim
+      - listitem:
+        - link "Buzz"
+- banner:
+  - heading "PIM" [level=6]
+  - link "Upgrade":
+    - button "Upgrade"
+  - list:
+    - listitem:
+      - img "profile picture"
+      - paragraph: manda user
+      - text: 
+  - navigation "Topbar Menu":
+    - list:
+      - listitem: Configuration 
+      - listitem:
+        - link "Employee List"
+      - listitem:
+        - link "Add Employee"
+      - listitem:
+        - link "Reports"
+      - button ""
+- heading "Add Employee" [level=6]
+- separator
+- textbox
+- img "profile picture"
+- button ""
+- paragraph: "Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px"
+- text: Employee Full Name*
+- textbox "First Name": Erick
+- textbox "Middle Name": Shiloh
+- textbox "Last Name": O'Connell
+- text: Employee Id
+- textbox: "85343"
+- text: Employee Id already exists
+- separator
+- paragraph: Create Login Details
+- checkbox [checked]
+- text: Username*
+- textbox: ElliseHxft
+- text: Username already exists Status
+- radio "Enabled" [checked]
+- text: Enabled
+- radio "Disabled"
+- text: Disabled Strongest Password*
+- textbox: morJDcyl1eo_6de
+- paragraph: For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers
+- text: Confirm Password*
+- textbox: morJDcyl1eo_6de
+- separator
+- paragraph: "* Required"
+- button "Cancel"
+- button "Save"
+- paragraph: OrangeHRM OS 5.7
+- paragraph:
+  - text: © 2005 - 2025
+  - link "OrangeHRM, Inc"
+  - text: . All rights reserved.
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect, Page } from '@playwright/test';
+   2 | import { LoginPage } from '../PageObjects/loginPage.ts';
+   3 | import { BasePage } from '../PageObjects/basePage.ts';
+   4 | import { PIMPage } from '../PageObjects/pimPage.ts';
+   5 |
+   6 | import { userTestData } from '../fixtures/genUser';
+   7 | import text from "../fixtures/text.json" assert { type: "json" };
+   8 |
+   9 | const genUser = userTestData();
+   10 |
+   11 | test.describe('Tests for the employee management functionality in the OrangeHRM system', () => {
+   12 |
+   13 |   test.beforeEach(async ({ page }: { page: Page }) => {
+   14 |     const loginPage = new LoginPage(page);
+   15 |     await loginPage.gotoLoginPage();
+   16 |     await loginPage.fillUsernameField(genUser.adminUsername);
+   17 |     await loginPage.fillPasswordField(genUser.adminPassword);
+   18 |     await loginPage.clickLoginButton();
+   19 |   });
+   20 |
+   21 |   test('Adding a New Employee from Administrator account', async ({ page }: { page: Page }) => {
+   22 |     const pimPage = new PIMPage(page);
+   23 |
+   24 |     await pimPage.clickButtonPIM();
+   25 |     await pimPage.clickAddEmployeeButton();
+   26 |     await pimPage.clickEmployeeAddPhotoButton();
+   27 |     await pimPage.fileInput.setInputFiles(text.pimPage.filePath);
+   28 |     await expect(pimPage.filePreview).toBeVisible();
+   29 |
+   30 |     await pimPage.fillFirstNameField(genUser.firstname);
+   31 |     await pimPage.fillMiddleNameField(genUser.middlename);
+   32 |     await pimPage.fillLastNameField(genUser.lastname);
+   33 |     await pimPage.changeEmployeeID(`${genUser.id}`);
+   34 |     await pimPage.clickCreateLoginDetailsButton();
+   35 |     await pimPage.fillUsernameField(genUser.username);
+   36 |     const password = await pimPage.fillPasswordField(genUser.password);
+   37 |     await pimPage.fillConfirmPasswordField(password);
+   38 |     await pimPage.checkStatusEnabled();
+   39 |     await pimPage.clickSaveButton();
+   40 |
+   41 |     await expect(await pimPage.successSavedMessage).toBeVisible();
+   42 |     await expect(await pimPage.personalDetailsHeader).toContainText(text.pimPage.personalDetailsHeader);
+   43 |   });
+   44 |
+   45 |   test('Verify that a new User can be logged in after registering as a new Employee', async ({ page }: { page: Page }) => {
+   46 |     const pimPage = new PIMPage(page);
+   47 |     const loginPage = new LoginPage(page);
+   48 |     const basePage = new BasePage(page);
+   49 |
+   50 |     await pimPage.clickButtonPIM();
+   51 |     await pimPage.clickAddEmployeeButton();
+   52 |     await pimPage.fillFirstNameField(genUser.firstname);
+   53 |     await pimPage.fillMiddleNameField(genUser.middlename);
+   54 |     await pimPage.fillLastNameField(genUser.lastname);
+   55 |     await pimPage.changeEmployeeID(`${genUser.id}`);
+   56 |     await pimPage.clickCreateLoginDetailsButton();
+   57 |     const username = await pimPage.fillUsernameField(genUser.username);
+   58 |     const password = await pimPage.fillPasswordField(genUser.password);
+   59 |     await pimPage.fillConfirmPasswordField(password);
+   60 |     await pimPage.checkStatusEnabled();
+   61 |     await pimPage.clickSaveButton();
+   62 |     await page.waitForTimeout(2000);
+   63 |
+   64 |     await expect(await pimPage.successSavedMessage).toBeVisible();
+   65 |     await expect(await pimPage.personalDetailsHeader).toContainText(text.pimPage.personalDetailsHeader);
+   66 |
+   67 |     await pimPage.clickDropdownUserMenu();
+   68 |     await pimPage.clickLogoutButton();
+   69 |     await loginPage.fillUsernameField(username);
+   70 |     await loginPage.fillPasswordField(password);
+   71 |     await loginPage.clickLoginButton();
+   72 |     await expect(await basePage.dashboardHeading).toContainText(text.basePage.dashboardHeading);
+   73 |   });
+   74 |
+   75 |   test('Verify that an administrator can successfully edit an employee\'s details', async ({ page }: { page: Page }) => {
+   76 |     const pimPage = new PIMPage(page);
+   77 |     const loginPage = new LoginPage(page);
+   78 |     const basePage = new BasePage(page);
+   79 |
+   80 |     await pimPage.clickButtonPIM();
+   81 |     await pimPage.clickAddEmployeeButton();
+   82 |     await pimPage.fillFirstNameField(genUser.firstname);
+   83 |     await pimPage.fillMiddleNameField(genUser.middlename);
+   84 |     await pimPage.fillLastNameField(genUser.lastname);
+   85 |     await pimPage.changeEmployeeID(`${genUser.id}`);
+   86 |     await pimPage.clickCreateLoginDetailsButton();
+   87 |     await pimPage.fillUsernameField(genUser.username);
+   88 |     const password = await pimPage.fillPasswordField(genUser.password);
+   89 |     await pimPage.fillConfirmPasswordField(password);
+   90 |     await pimPage.checkStatusEnabled();
+   91 |     await pimPage.clickSaveButton();
+   92 |
+>  93 |     await expect(await pimPage.successSavedMessage).toBeVisible();
+      |                                                     ^ Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+   94 |     await expect(await pimPage.personalDetailsHeader).toContainText(text.pimPage.personalDetailsHeader);
+   95 |
+   96 |     await pimPage.clickDropdownUserMenu();
+   97 |     await pimPage.clickLogoutButton();
+   98 |     await loginPage.fillUsernameField(genUser.adminUsername);
+   99 |     await loginPage.fillPasswordField(genUser.adminPassword);
+  100 |     await loginPage.clickLoginButton();
+  101 |     // await expect(await basePage.dashboardHeading).toContainText(text.basePage.dashboardHeading);
+  102 |
+  103 |     await pimPage.clickButtonPIM();
+  104 |     await expect(page).toHaveURL(text.pimPage.url);
+  105 |
+  106 |     await pimPage.clickFirstPencilIconForEdit();
+  107 |     await page.waitForTimeout(2000);
+  108 |     const newLastName = await pimPage.editLastNameInputValue(text.pimPage.editedLastName);
+  109 |     await pimPage.clickSavePersonalDetailsButton();
+  110 |     await expect(await pimPage.successSavedMessage).toBeVisible();
+  111 |
+  112 |     await pimPage.clickEmployeeListButton();
+  113 |     await expect(await pimPage.getFirstLastNameTableValue()).toBe(newLastName);
+  114 |   });
+  115 |
+  116 | });
+  117 |
+```
