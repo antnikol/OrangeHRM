@@ -27,7 +27,8 @@ class PIMPage extends BasePage {
         this.employeeAddPhotoButton = page.locator('.oxd-icon.bi-plus');
         this.fileInput = page.locator('input[type="file"]');
         this.filePreview = page.locator('img.employee-image[src^="data:image/jpeg;base64,"]');
-    }
+        this.employeeID = page.locator('.oxd-input').nth(4);
+    }   
 
     async clickAddEmployeeButton(){
         await this.addEmployeeButton.click();
@@ -98,6 +99,11 @@ class PIMPage extends BasePage {
 
     async uploadFile(filePath) {
         await this.employeeAddPhotoButton.setInputFiles(filePath)
+    }
+
+    async changeEmployeeID(num) {
+        await this.employeeID.click();
+        await this.employeeID.fill(num);
     }
 }
 

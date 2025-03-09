@@ -10,6 +10,7 @@ export const userTestData = () => {
     firstname: faker.person.firstName(),
     middlename: faker.person.middleName(),
     lastname: faker.person.lastName(),
+    id: faker.number.int({ min: 10000, max: 999999 }),
     adminUsername: 'Admin',
     adminPassword: 'admin123',
   }

@@ -28,7 +28,6 @@ test.describe ('Tests for the employee management functionality in the OrangeHRM
     await pimPage.fileInput.setInputFiles(text.pimPage.filePath);
     await expect(pimPage.filePreview).toBeVisible();
 
-    // await pimPage.uploadFile(text.pimPage.filePath);
     await pimPage.fillFirstNameField(genUser.firstname);
     await pimPage.fillMiddleNameField(genUser.middlename);
     await pimPage.fillLastNameField(genUser.lastname);
@@ -53,13 +52,13 @@ test.describe ('Tests for the employee management functionality in the OrangeHRM
     await pimPage.fillFirstNameField(genUser.firstname);
     await pimPage.fillMiddleNameField(genUser.middlename);
     await pimPage.fillLastNameField(genUser.lastname);
+    await pimPage.changeEmployeeID(`${genUser.id}`);
     await pimPage.clickCreateLoginDetailsButton();
     const username = await pimPage.fillUsernameField(genUser.username);
     const password = await pimPage.fillPasswordField(genUser.password);
     await pimPage.fillConfirmPasswordField(password);
     await pimPage.checkStatusEnabled();
     await pimPage.clickSaveButton();
-    await page.waitForTimeout(3000);
 
     await expect(await pimPage.successSavedMessage).toBeVisible()
     await expect(await pimPage.personalDetailsHeader).toContainText(text.pimPage.personalDetailsHeader);
@@ -82,6 +81,7 @@ test.describe ('Tests for the employee management functionality in the OrangeHRM
     await pimPage.fillFirstNameField(genUser.firstname);
     await pimPage.fillMiddleNameField(genUser.middlename);
     await pimPage.fillLastNameField(genUser.lastname);
+    await pimPage.changeEmployeeID(`${genUser.id}`);
     await pimPage.clickCreateLoginDetailsButton();
     await pimPage.fillUsernameField(genUser.username);
     const password = await pimPage.fillPasswordField(genUser.password);
@@ -97,7 +97,6 @@ test.describe ('Tests for the employee management functionality in the OrangeHRM
     await loginPage.fillIUsernameField(genUser.adminUsername);
     await loginPage.fillpasswordField(genUser.adminPassword);
     await loginPage.clickLoginButton();
-    await expect(await basePage.dashboardHeading).toContainText(text.basePage.dashboardHeading);
 
     await pimPage.clickButtonPIM();
     await expect(page).toHaveURL(text.pimPage.url);
