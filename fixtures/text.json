@@ -1,0 +1,10 @@
+{
+  "pimPage": {
+    "personalDetailsHeader": "Personal Details",
+    "url": "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList",
+    "editedLastName": "edited Last Name"
+  },
+  "basePage": {
+    "dashboardHeading": "Dashboard"
+  }
+}
