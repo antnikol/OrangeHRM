@@ -1,0 +1,35 @@
+Bug Report: Employee ID Duplication Issue
+Bug ID: HRM-TC_001-001
+Title: "Employee ID already exists" error appears when adding a new employee
+Environment:
+  Browser: Chrome 122.0.0.0 (64-bit)
+  OS: Windows 10 Pro (64-bit)
+  Tested Account: Administrator (Username: "Admin", Password: "admin123")
+Preconditions:
+  1.The user is logged in as an Administrator.
+  2.The user is on the "Add Employee" page under the PIM module.
+Steps to Reproduce:
+  1.Navigate to the PIM module in the left-side menu.
+  2.Click on the "Add Employee" button.
+  3.Enter First Name, Middle Name, and Last Name in the respective fields.
+  4.Verify that the Employee ID is auto-generated.
+  5.Upload a profile picture.
+  6.Enable the "Create Login Details" checkbox.
+  7.Enter a Username.
+  8.Select "Enabled" as the account status.
+  9.Enter and confirm the Password.
+  10.Click the Save button.
+Actual Result:
+  1.An error message "Employee ID already exists" appears after clicking the Save button.
+  2.The employee is not added to the system.
+Expected Result:
+  1.The system should generate a unique Employee ID automatically.
+  2.The employee should be successfully added without any duplication errors.
+  3.A confirmation message should appear after saving.
+  4.The newly created employee should be visible in the Employee List.
+  5.The employee should be able to log in with the provided username and password.
+Severity: Critical (Blocks the addition of new employees)
+Priority: High
+Attachments:
+Screenshot of the error message (bugReportImg_TC_001.png).
+Status: Open
