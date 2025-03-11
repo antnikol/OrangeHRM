@@ -1,4 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Sun Mar 09 22:28:10 GMT 2025","Sun Mar 09 22:28:18 GMT 2025","7893","chromium","pimPage.spec.js","Tests for the employee management functionality in the OrangeHRM system","","","Adding a New Employee from Administrator account",""
-"failed","Sun Mar 09 22:29:07 GMT 2025","Sun Mar 09 22:29:18 GMT 2025","10778","chromium","pimPage.spec.js","Tests for the employee management functionality in the OrangeHRM system","","","Verify that a new User can be logged in after registering as a new Employee",""
-"failed","Sun Mar 09 22:29:28 GMT 2025","Sun Mar 09 22:29:36 GMT 2025","8125","chromium","pimPage.spec.js","Tests for the employee management functionality in the OrangeHRM system","","","Verify that an administrator can successfully edit an employee's details",""
